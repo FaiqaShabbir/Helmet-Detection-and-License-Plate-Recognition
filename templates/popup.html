@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Popup</title>
+    <!-- Add Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="icon" type="image/png" href="static/logo.png">
+
+    <style>
+        .frame {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .frame img {
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .frame img:hover {
+            transform: scale(1.1);
+            transition: transform 1s ease;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            color: #333333;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px #cccccc;
+        }
+
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        body {
+            /* background: linear-gradient(to right, #89a5f8, #94c3ee); */
+            background: #fff;
+            background-size: 400% 400%;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            /* animation: gradient 10s ease infinite; */
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* New styles for the navigation bar */
+        .navbar {
+            background: linear-gradient(to right, #7c96e6, #4e73df);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff;
+        }
+
+
+        .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #f2f2f2;
+        }
+
+        /* New styles for the Home and Logout buttons */
+        .home-btn,
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background-image: linear-gradient(180deg, #fff 0%, #f2f2f2 100%);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            color: #333;
+            transition: all 0.3s ease-in-out;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .home-btn:hover,
+        .logout-btn:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+            background-image: linear-gradient(180deg, #f2f2f2 0%, #ddd 100%);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            color: #fff;
+        }
+
+        .home-btn:focus,
+        .logout-btn:focus {
+            box-shadow: none;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            z-index: 10;
+            /* Add z-index to ensure it's above other content */
+        }
+    </style>
+
+    <script>
+        function performOCR(frame, videoName) {
+            document.getElementById('frame').value = frame;
+            document.getElementById('video_name').value = videoName;
+            document.getElementById('ocr_form').submit();
+        }
+    </script>
+
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand">HDLPR</a>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="btn home-btn" href="{{ url_for('upload') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn logout-btn" href="{{ url_for('login') }}">Logout</a>
+          </li>
+        </ul>
+      </nav>
+      
+    <h1>Extracted Frames</h1>
+    <section>
+        <form id="ocr_form" action="{{ url_for('perform_ocr_on_video') }}" method="POST" target="_blank">
+            <input type="hidden" id="frame" name="frame" value="">
+            <input type="hidden" id="video_name" name="video_name" value="">
+        </form>
+        {% for frame in frames %}
+        {% if not frame.endswith('.txt') %}
+        <div class="frame" onclick="performOCR('{{ frame }}', '{{ video_name }}')">
+            <img src="{{ url_for('static', filename='frames/' + video_name + '/' + frame) }}" width="300" height="200">
+        </div>
+        {% endif %}
+        {% endfor %}
+    </section>
+
+    <div class="footer">
+        &copy; 2023 Helmet Detection and License Plate Recognition. All rights reserved.
+    </div>
+</body>
+
+</html>

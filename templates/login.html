@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Helmet Detection and License Plate Recognition - Login</title>
+  <!-- Add Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Add Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="icon" type="image/png" href="static/logo.png">
+
+
+  <style>
+    body{
+      overflow: hidden;
+    }
+    .dark-mode {
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    .light-mode {
+      background-color: #f2f2f2;
+      color: #333333;
+    }
+
+    body.dark-mode {
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    body.light-mode {
+      background-color: #f2f2f2;
+      color: #333333;
+    }
+
+    .login-form {
+      width: 400px;
+      margin: 0 auto;
+      margin-top: 50px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-form h1 {
+      text-align: center;
+      font-size: 32px;
+      color: #000000;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    /* Dark mode styles */
+    .dark-mode .login-form {
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    .dark-mode .login-form h1 {
+      color: #ffffff;
+    }
+
+    .dark-mode .login-form input[type="text"],
+    .dark-mode .login-form input[type="password"],
+    .dark-mode .login-form input[type="submit"] {
+      color: #ffffff;
+      background-color: #444444;
+      border-color: #666666;
+    }
+
+    .dark-mode .login-form label {
+      color: #ffffff;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .logo-container img {
+      width: 80px;
+      height: 80px;
+      margin-right: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .logo-container img:hover {
+      transform: rotate(360deg);
+      transition: transform 1s ease;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      margin-top: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #cccccc;
+      box-sizing: border-box;
+    }
+
+    .login-form input[type="submit"] {
+      width: 100px;
+      /* Set a fixed width */
+      margin: 20px auto;
+      /* Center the button horizontally */
+      background-color: #4e73df;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .login-form input[type="submit"]:hover {
+      background-color: #c44cb4;
+    }
+
+    .login-form input[type="submit"]:hover {
+      background-image: linear-gradient(to right, #4e73df, #c44182);
+      color: #ffffff;
+    }
+
+    .login-form label{
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      margin-bottom: 0px;
+    }
+
+    .login-form {
+      background: linear-gradient(to right, #7796f3, #6586e2);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .alert-danger {
+        background-color: #d93343;
+        border: 1px solid #fafafa;
+        color: #fbfbfb;
+        width: 18%; /* Set the width to make it smaller */
+        margin: 0 auto; /* Center the alert horizontally */
+        text-align: center; /* Center the text within the alert */
+        padding: 10px; /* Add padding to the alert content */
+        border-radius: 16px; /* Add some border-radius for rounded corners */
+        margin-top: 12px;
+    }
+
+    .btn-primary {
+      border-radius: 20px;
+      background-color: #4e73df;
+      border-color: #4e73df;
+      background-image: linear-gradient(180deg, #4e73df 0%, #224abe 100%);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+      background-color: #2e59d9;
+      border-color: #2e59d9;
+      background-image: linear-gradient(180deg, #2e59d9 0%, #1a3c86 100%);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+      // Set default mode
+      if (localStorage.getItem("mode") === "dark") {
+        setDarkMode();
+      } else {
+        setLightMode();
+      }
+
+      // Toggle mode on button click
+      $("#mode-toggle").click(function () {
+        if ($("body").hasClass("dark-mode")) {
+          setLightMode();
+        } else {
+          setDarkMode();
+        }
+      });
+    });
+
+    function setDarkMode() {
+      $("body").removeClass("light-mode");
+      $("body").addClass("dark-mode");
+      localStorage.setItem("mode", "dark");
+    }
+
+    function setLightMode() {
+      $("body").removeClass("dark-mode");
+      $("body").addClass("light-mode");
+      localStorage.setItem("mode", "light");
+    }
+
+
+    function togglePasswordVisibility() {
+      var passwordInput = document.getElementById("password");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+  {% if error_msg %}
+  <div class="alert alert-danger" role="alert">
+    {{ error_msg }}
+  </div>
+  {% endif %}
+
+  <button id="mode-toggle" class="btn btn-link">
+    <i class="fas fa-sun"></i>
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <div class="login-form">
+    <h1>Helmet Detection and License Plate Recognition</h1>
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+
+    <form method="post" action="{{ url_for('login') }}">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+
+      <div class="clearfix">
+        <input type="checkbox" onclick="togglePasswordVisibility()" style="margin-right: 5px;"> Show password
+      </div>
+
+      <div class="text-center"> 
+        <input type="submit" class="btn btn-primary" value="LOGIN">
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

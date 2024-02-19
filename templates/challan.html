@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Helmet Detection and License Plate Recognition - Challan Form</title>
+  <!-- Add Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Add Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="icon" type="image/png" href="static/logo.png">
+
+  <style>
+    .dark-mode {
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    .light-mode {
+      background-color: #f2f2f2;
+      color: #333333;
+    }
+
+    body.dark-mode {
+      background-color: #222222;
+      color: #ffffff;
+    }
+
+    body.light-mode {
+      background-color: #f2f2f2;
+      color: #333333;
+    }
+
+    .challan-form {
+      width: 400px;
+      margin: 0 auto;
+      margin-top: 50px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .challan-form h1 {
+      text-align: center;
+      font-size: 32px;
+      color: #333333;
+    }
+
+    /* Dark mode styles */
+    .dark-mode .challan-form {
+      background-color: #333333;
+      color: #ffffff;
+    }
+
+    .dark-mode .challan-form h1 {
+      color: #ffffff;
+    }
+
+    .dark-mode .challan-form input[type="text"],
+    .dark-mode .challan-form input[type="submit"] {
+      color: #ffffff;
+      background-color: #444444;
+      border-color: #666666;
+    }
+
+    .dark-mode .challan-form label {
+      color: #ffffff;
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .logo-container img {
+      width: 80px;
+      height: 80px;
+      margin-right: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .logo-container img:hover {
+      transform: rotate(360deg);
+      transition: transform 1s ease;
+    }
+
+    .challan-form input[type="text"],
+    .challan-form input[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #cccccc;
+      box-sizing: border-box;
+    }
+
+    .challan-form input[type="submit"] {
+      background-color: #4e73df;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .challan-form input[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+
+    .challan-form input[type="submit"]:hover {
+      background-image: linear-gradient(to right, #4e73df, #3e8e41);
+      color: #ffffff;
+    }
+
+    .challan-form {
+      width: 800px;
+      margin: 0 auto;
+      margin-top: 50px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(to right, #89a5f8, #76f572, #ffffff);
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+      margin-bottom: 60px;
+    }
+
+    .alert {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      word-wrap: break-word;
+    }
+
+    .alert-success {
+      background-color: #D4EDDA;
+      border: 1px solid #C3E6CB;
+      color: #155724;
+    }
+
+    .alert-danger {
+      background-color: #F8D7DA;
+      border: 1px solid #F5C6CB;
+      color: #721C24;
+    }
+
+    .btn-primary {
+      border-radius: 20px;
+      background-color: #4e73df;
+      border-color: #4e73df;
+      background-image: linear-gradient(180deg, #4e73df 0%, #224abe 100%);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+      background-color: #2e59d9;
+      border-color: #2e59d9;
+      background-image: linear-gradient(180deg, #2e59d9 0%, #1a3c86 100%);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .btn-primary:focus {
+      box-shadow: none;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .detected-image-container {
+      width: 50%;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      /* Adjust the column width as needed */
+      grid-gap: 20px;
+    }
+
+    /* New styles for the navigation bar */
+    .navbar {
+      background-color: #7c96e6;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .navbar-nav .nav-link {
+      color: #fff;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #f2f2f2;
+    }
+
+    /* New styles for the Home and Logout buttons */
+    .home-btn,
+    .logout-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
+      font-weight: bold;
+      margin-right: 1rem;
+    }
+
+    .home-btn:hover,
+    .logout-btn:hover {
+      background-color: #2e59d9;
+      border-color: #2e59d9;
+      background-image: linear-gradient(180deg, #2e59d9 0%, #1a3c86 100%);
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .home-btn:focus,
+    .logout-btn:focus {
+      box-shadow: none;
+    }
+
+    .alert-card {
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      padding: 5px;
+      margin: 20px auto;
+      max-width: 400px;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .alert-card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .alert-card-body {
+      font-size: 16px;
+    }
+
+    .evidence-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .evidence-image {
+      width: 100%;
+      max-width: 50%;
+      /* Adjust the maximum width as needed */
+      height: auto;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .send-btn {
+      margin: 12px auto;
+      height: 50px;
+      width: 120px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0px 0px 15px rgba(36, 105, 110, 0.432);
+      font-family: 'Damion', cursive;
+      border: none;
+      font-size: 16px;
+      color: black;
+      transition: 500ms;
+    }
+
+    #send-btn {
+      height: 50px;
+      width: 120px;
+      font-size: 16px;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      z-index: 10;
+      /* Add z-index to ensure it's above other content */
+    }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+      // Set default mode
+      if (localStorage.getItem("mode") === "dark") {
+        setDarkMode();
+      } else {
+        setLightMode();
+      }
+
+      // Toggle mode on button click
+      $("#mode-toggle").click(function () {
+        if ($("body").hasClass("dark-mode")) {
+          setLightMode();
+        } else {
+          setDarkMode();
+        }
+      });
+    });
+
+    function setDarkMode() {
+      $("body").removeClass("light-mode");
+      $("body").addClass("dark-mode");
+      localStorage.setItem("mode", "dark");
+    }
+
+    function setLightMode() {
+      $("body").removeClass("dark-mode");
+      $("body").addClass("light-mode");
+      localStorage.setItem("mode", "light");
+    }
+
+  </script>
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand">Helmet Detection and License Plate Recognition</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <!-- Add more navigation items here as needed -->
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="btn home-btn" href="{{ url_for('upload') }}" type="button">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn logout-btn" href="{{ url_for('login') }}" type="button">Logout</a>
+          <!-- <button class="btn btn-primary btn-logout logout-btn" href="{{ url_for('login') }}" type="button">Logout</button> -->
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <button id="mode-toggle" class="btn btn-link">
+    <i class="fas fa-sun"></i>
+    <i class="fas fa-moon"></i>
+  </button>
+
+  {% if error_message %}
+  <div class="card alert-card alert-danger" role="alert">
+    <div class="card-body">
+      <h5 class="alert-card-title">Error</h5>
+      <p class="alert-card-body">{{ error_message }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert alert-success">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+
+  <div class="challan-form">
+    <h1>Helmet Detection and License Plate Recognition</h1>
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+
+    <form method="POST" action="{{ url_for('generate_challan') }}">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="person_name"><b>Person Name:</b></label>
+          <input type="text" name="person_name" id="person_name" value="{{ person_name }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="father_name"><b>Father Name:</b></label>
+          <input type="text" name="father_name" id="father_name" value="{{ father_name }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="person_cnic"><b>Person CNIC:</b></label>
+          <input type="text" name="person_cnic" id="person_cnic" value="{{ person_cnic }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="person_contact_number"><b>Person Contact Number:</b></label>
+          <input type="text" name="person_contact_number" id="person_contact_number" value="{{ person_contact_number }}"
+            readonly>
+        </div>
+        <div class="form-group">
+          <label for="license_plate_no"><b>License Plate No:</b></label>
+          <input type="text" name="license_plate_no" id="license_plate_no" value="{{ license_plate_no }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="email_id"><b>Email ID:</b></label>
+          <input type="text" name="email_id" id="email_id" value="{{ email_id }}" readonly>
+        </div>
+
+
+        <div class="form-group">
+          <label for="violation_type"><b>Violation Type:</b></label>
+          <select name="violation_type" id="violation_type" class="form-control" required>
+            <option value="without_helmet">Without Helmet Riding</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="violation_location"><b>Violation Location:</b></label>
+          <select name="violation_location" id="violation_location" class="form-control" required>
+            <option value="Mandi_Bahauddin_City">Mandi Bahauddin City</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+
+
+
+        <div class="form-group">
+          <label for="violation_datetime"><b>Violation Datetime:</b></label>
+          <input type="datetime-local" name="violation_datetime" id="violation_datetime" required>
+        </div>
+
+        <div class="form-group">
+          <label for="fine_amount"><b>Fine Amount:</b></label>
+          <input type="number" name="fine_amount" id="fine_amount" required>
+        </div>
+        <div class="form-group">
+          <label for="payment_deadline"><b>Payment Deadline:</b></label>
+          <input type="datetime-local" name="payment_deadline" id="payment_deadline" required>
+        </div>
+        <div class="form-group">
+          <label for="detected_image"><b>Evidence:</b></label>
+          <img src="{{ url_for('static', filename='detection/' + license_plate_no + '.jpg') }}" alt="Detected Image"
+            class="evidence-image">
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Send Challan" class="btn btn-primary send-btn" id="send-btn">
+      </div>
+    </form>
+  </div>
+
+  <div class="footer">
+    &copy; 2023 Helmet Detection and License Plate Recognition. All rights reserved.
+  </div>
+
+</body>
+
+
+
+</html>

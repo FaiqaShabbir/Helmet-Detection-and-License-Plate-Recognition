@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Upload</title>
+  <!-- Add any necessary CSS stylesheets and JavaScript files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-+J+MV+YzJ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ+JzJQ=="
+    crossorigin="anonymous" />
+  <link rel="icon" type="image/png" href="static/logo.png">
+
+  <script>
+    function enableImage() {
+      // Show loading symbol
+      showLoadingSymbol();
+
+      // Disable buttons to prevent multiple submissions
+      document.getElementById("image-btn").disabled = true;
+      document.getElementById("video-btn").disabled = true;
+
+      // Continue with file submission
+      // For demonstration purposes, let's simulate a 3-second delay before submitting the form
+      setTimeout(() => {
+        document.getElementById("image-form").submit(); // Replace 'image-form' with the actual form ID for image upload
+      }, 3000); // 3-second delay, you should replace this with your server-side upload code
+    }
+
+    function enableVideo() {
+      // Show loading symbol
+      showLoadingSymbol();
+
+      // Disable buttons to prevent multiple submissions
+      document.getElementById("image-btn").disabled = true;
+      document.getElementById("video-btn").disabled = true;
+
+      // Continue with file submission
+      // For demonstration purposes, let's simulate a 3-second delay before submitting the form
+      setTimeout(() => {
+        document.getElementById("video-form").submit(); // Replace 'video-form' with the actual form ID for video upload
+      }, 3000); // 3-second delay, you should replace this with your server-side upload code
+    }
+
+    function showLoadingSymbol() {
+      document.getElementById("loading-symbol").style.display = "flex";
+    }
+
+  </script>
+
+  <script>
+    // Function to hide the success message after a timeout
+    function hideSuccessMessage() {
+      const successMessage = document.getElementById("success-message");
+      if (successMessage) {
+        setTimeout(() => {
+          successMessage.style.display = "none";
+        }, 2500); // Hide after 3 seconds (adjust as needed)
+      }
+    }
+
+    // Call the function when the document is ready
+    document.addEventListener("DOMContentLoaded", hideSuccessMessage);
+  </script>
+
+</head>
+
+
+
+<style>
+  /* AI generated styles */
+  .card-title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    text-shadow: 1px 1px 2px #888;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .card {
+    width: 80%;
+    position: relative;
+    background-color: #fff;
+    border-radius: 0.35rem;
+    box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03), 0 0.5rem 1rem rgba(18, 38, 63, 0.03), 0 0.375rem 0.5rem -0.25rem rgba(18, 38, 63, 0.1);
+    transition: all 0.3s;
+    overflow: hidden;
+  }
+
+  .card:before {
+    content: '';
+    position: absolute;
+    top: -25%;
+    left: -25%;
+    width: 150%;
+    height: 150%;
+    background: linear-gradient(to top, rgba(78, 115, 223, 0.8) 0%, rgba(78, 115, 223, 0.2) 50%, rgba(78, 115, 223, 0) 100%);
+    transform: rotate(45deg);
+    z-index: -1;
+    animation: moveBackground 20s ease infinite;
+  }
+
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 0;
+    }
+
+    50% {
+      background-position: 200% 100%;
+    }
+
+    100% {
+      background-position: 0 0;
+    }
+  }
+
+  .card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+  }
+
+
+  .card-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+  }
+
+  .card-primary:hover {
+    background: linear-gradient(to right, #4e73df, #2e59d9);
+    border-color: #2e59d9;
+  }
+
+  .form-control {
+    border-radius: 20px;
+    border-color: #4e73df;
+    border: 2px solid #dcdcdc;
+    background-color: #f2f2f2;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-primary {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 0.3rem 0.8rem;
+    font-size: 14px;
+    border-radius: 20px;
+    background-color: #4e73df;
+    border-color: #4e73df;
+    background-image: linear-gradient(180deg, #4e73df 0%, #224abe 100%);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background-color: #2e59d9;
+    border-color: #2e59d9;
+    background-image: linear-gradient(180deg, #2e59d9 0%, #1a3c86 100%);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+
+  .btn-primary:focus {
+    box-shadow: none;
+  }
+
+  .upload-btn {
+    margin: 12px auto;
+    /* Center the buttons horizontally */
+    height: 50px;
+    width: 120px;
+    border-radius: 10px;
+    /* Change background color to white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 15px rgba(36, 105, 110, 0.432);
+    /* Change box shadow */
+    font-family: 'Damion', cursive;
+    border: none;
+    font-size: 16px;
+    color: black;
+    transform: translateZ(0);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .upload-btn:hover {
+    transform: translateZ(5px);
+  }
+
+  /* Adjust the size of the image and video upload buttons */
+  #image-btn,
+  #video-btn {
+    height: 50px;
+    width: 120px;
+    font-size: 16px;
+  }
+
+
+
+  .upload-icon {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  .card {
+    animation: fade-in 1s;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .footer {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    z-index: 10;
+    /* Add z-index to ensure it's above other content */
+  }
+
+  .container-fluid {
+    margin-bottom: 60px;
+    /* Add margin to create space for the footer */
+  }
+
+  /* New styles for the navigation bar */
+  .navbar {
+    background: linear-gradient(to right, #7c96e6, #4e73df);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+
+  .navbar-brand {
+    font-weight: bold;
+    color: #fff;
+  }
+
+
+  .navbar-nav .nav-link {
+    color: #fff;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #f2f2f2;
+  }
+
+  /* New styles for the Home and Logout buttons */
+  .home-btn,
+  .logout-btn {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-image: linear-gradient(180deg, #fff 0%, #f2f2f2 100%);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    color: #000000;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+
+  .home-btn:hover,
+  .logout-btn:hover {
+    background-color: #2e59d9;
+    border-color: #2e59d9;
+    background-image: linear-gradient(180deg, #f2f2f2 0%, #ddd 100%);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    color: #000000;
+  }
+
+  .home-btn:focus,
+  .logout-btn:focus {
+    box-shadow: none;
+  }
+
+  .alert-card {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .alert-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .alert-card-body {
+    font-size: 16px;
+  }
+
+  .alert-error {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .loading-text {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  /* Custom styles for the image card */
+  .image-card {
+    padding-left: 20px;
+    max-width: 100%;
+    width: 100%;
+    /* Adjust this value to increase the size from the left side */
+  }
+
+  /* Custom styles for the image-legends container */
+  .image-legends-container {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 50px;
+    margin-top: 20px;
+  }
+
+
+  /* Custom styles for the legends */
+  .legends {
+    margin: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .invisible-separator {
+    margin: 20px 30px;
+    /* Adjust the margin as needed for spacing */
+  }
+
+
+  /* Define a fixed aspect ratio for the circle elements */
+  .legend-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 8px;
+    aspect-ratio: 1;
+    /* Maintain a 1:1 aspect ratio */
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .legend-shape {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  .legend-text {
+    font-size: 14px;
+  }
+
+  /* Adjust the spacing as needed */
+  .card-body {
+    padding: 1rem;
+  }
+
+  /* Additional styles to improve visibility */
+  .legend-shape {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px #333;
+  }
+
+  /* Reduce the image size from all sides */
+  .img-fluid {
+    max-width: 80%;
+    height: auto;
+  }
+
+  .img-license {
+    max-width: 20%;
+    height: auto;
+  }
+
+  
+</style>
+</head>
+
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand">HDLPR</a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="btn home-btn" href="{{ url_for('upload') }}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn logout-btn" href="{{ url_for('login') }}">Logout</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div id="loading-symbol" class="loading-container">
+    <div class="loading-text">Processing...</div>
+  </div>
+
+  <div class="success-message-container">
+    {% if login_success_message %}
+    <div id="success-message" class="alert alert-success rounded-pill text-center p-2" role="alert">
+      {{ login_success_message }}
+    </div>
+    {% endif %}
+  </div>
+
+
+  {% if error_message %}
+  <div class="card alert-card alert-danger" role="alert">
+    <div class="card-body">
+      <h5 class="alert-card-title">Warning</h5>
+      <p class="alert-card-body">{{ error_message }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if pic_error_message %}
+  <div class="card alert-card alert-danger" role="alert">
+    <div class="card-body">
+      <h5 class="alert-card-title">Warning</h5>
+      <p class="alert-card-body">{{ pic_error_message }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="container-fluid">
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Upload Picture</h5>
+            <form id="image-form" method="POST" action="/picture_upload" enctype="multipart/form-data"
+              onsubmit="enableImage(); return false;">
+              <div class="form-group">
+                <label for="picture-upload" class="sr-only">Select picture to upload</label>
+                <input type="file" class="form-control-file" id="picture-upload" name="picture" accept="image/*">
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary btn-block upload-btn" id="image-btn">
+                <i class="fas fa-upload upload-icon"></i> Upload
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Upload Video</h5>
+            <form id="video-form" method="POST" action="/video_upload" enctype="multipart/form-data"
+              onsubmit="enableVideo(); return false;">
+              <div class="form-group">
+                <label for="video-upload" class="sr-only">Select video to upload</label>
+                <input type="file" class="form-control-file" id="video-upload" name="video" accept="video/*">
+              </div>
+              <br>
+              <button type="submit" class="btn btn-primary btn-block upload-btn" id="video-btn">
+                <i class="fas fa-upload upload-icon"></i> Upload
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <div class="card image-card">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Detected Image</h5>
+            <div class="image-legends-container">
+              <div class="legends">
+                <div class="legend-item">
+                  <div class="legend-shape legend-circle" style="background-color: rgb(255, 59, 61);"></div>
+                  <span class="legend-text">Helmet</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-shape legend-circle" style="background-color: rgb(255, 156, 149);"></div>
+                  <span class="legend-text">No Helmet</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-shape legend-circle" style="background-color: rgb(250, 116, 29);"></div>
+                  <span class="legend-text">Number Plate</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-shape legend-circle" style="background-color: rgb(255, 173, 34);"></div>
+                  <span class="legend-text">Rider</span>
+                </div>
+              </div>
+              <!-- Add an invisible separator here -->
+              <div class="invisible-separator"></div>
+              {% if detected_image_path %}
+              <div class="image-container">
+                <img src="{{ detected_image_path }}" class="img-fluid" alt="Detected License Plate Image">
+              </div>
+              {% else %}
+              <p>No detected image available.</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Cropped Image</h5>
+            {% if cropped_image_path %}
+            <div class="text-center">
+              <img src="{{ cropped_image_path }}" class="img-license" alt="Cropped Image">
+            </div>
+            {% else %}
+            <p>No image uploaded yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Extracted Text</h5>
+            {% if extracted_text %}
+            <div class="text-center">
+              <p class="card-text">{{ extracted_text }}</p>
+            </div>
+            {% else %}
+            <p>No text extracted yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if extracted_text %}
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch">
+        {% if extracted_text == 'Rider is with helmet.' %}
+        {% elif extracted_text == 'Bike is rider less.' %}
+        {% elif extracted_text == 'Helmet recognition unavailable.' %}
+        {% else %}
+        <a href="{{ url_for('challan_form', license_plate_no=extracted_text) }}"
+          class="btn btn-primary btn-block mt-3">Generate Challan</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+
+
+  <div class="footer">
+    &copy; 2023 Helmet Detection and License Plate Recognition. All rights reserved.
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+
+  <!-- Dark Mode and Light Mode functionality -->
+  <script>
+    const lightModeIcon = document.getElementById("light-mode");
+    const darkModeIcon = document.getElementById("dark-mode");
+    const body = document.body;
+
+    lightModeIcon.addEventListener("click", () => {
+      body.classList.remove("dark-mode");
+      body.classList.add("light-mode");
+    });
+
+    darkModeIcon.addEventListener("click", () => {
+      body.classList.remove("light-mode");
+      body.classList.add("dark-mode");
+    });
+  </script>
+</body>
+
+</html>
